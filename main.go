@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 var errRequestFailed = errors.New("Request failed")
@@ -31,6 +32,10 @@ func main() {
 	for url, result := range results {
 		fmt.Println(url, result)
 	}
+	go count("mj")
+	go count("jake")
+	go count("james")
+	time.Sleep(time.Second * 5)
 }
 
 func hitURL(url string) error {
@@ -41,4 +46,11 @@ func hitURL(url string) error {
 		return errRequestFailed
 	}
 	return nil
+}
+
+func count(person string) {
+	for i := 0; i < 10; i++ {
+		fmt.Println(person, "is sexy", i)
+		time.Sleep(time.Second)
+	}
 }
