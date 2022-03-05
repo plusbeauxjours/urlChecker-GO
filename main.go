@@ -32,9 +32,14 @@ func main() {
 	for url, result := range results {
 		fmt.Println(url, result)
 	}
-	go count("mj")
-	go count("jake")
-	go count("james")
+	c := make(chan bool)
+	people := [2]string{"nico", "flynn"}
+	for _, person := range people {
+		go isCount(person, c)
+	}
+	fmt.Println(<-c)
+	fmt.Println(<-c)
+	fmt.Println(<-c)
 	time.Sleep(time.Second * 5)
 }
 
@@ -53,4 +58,10 @@ func count(person string) {
 		fmt.Println(person, "is sexy", i)
 		time.Sleep(time.Second)
 	}
+}
+
+func isCount(person string, c chan bool) {
+	time.Sleep(time.Second * 5)
+	fmt.Println(person)
+	c <- true
 }
