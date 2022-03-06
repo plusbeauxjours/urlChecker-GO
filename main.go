@@ -33,12 +33,8 @@ func main() {
 	for i := 0; i < len(urls); i++ {
 		result := <-c
 		results[result.url] = result.status
+		fmt.Println(result.url, result.status)
 	}
-
-	for url, status := range results {
-		fmt.Println(url, status)
-	}
-
 }
 
 func hitURL(url string, c chan<- requestResult) {
