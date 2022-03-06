@@ -10,37 +10,36 @@ import (
 var errRequestFailed = errors.New("Request failed")
 
 func main() {
-	var results = make(map[string]string)
-	urls := []string{
-		"https://www.airbnb.com/",
-		"https://www.google.com/",
-		"https://www.amazon.com/",
-		"https://www.google.com/",
-		"https://soundcloud.com/",
-		"https://www.facebook.com/",
-		"https://www.instagram.com/",
-		"https://www.plusbeauxjours.com/",
-	}
-	for _, url := range urls {
-		result := "OK"
-		err := hitURL(url)
-		if err != nil {
-			result = "FAILED"
-		}
-		results[url] = result
-	}
-	for url, result := range results {
-		fmt.Println(url, result)
-	}
-	c := make(chan bool)
-	people := [2]string{"nico", "flynn"}
+	// var results = make(map[string]string)
+	// urls := []string{
+	// 	"https://www.airbnb.com/",
+	// 	"https://www.google.com/",
+	// 	"https://www.amazon.com/",
+	// 	"https://www.google.com/",
+	// 	"https://soundcloud.com/",
+	// 	"https://www.facebook.com/",
+	// 	"https://www.instagram.com/",
+	// 	"https://www.plusbeauxjours.com/",
+	// }
+	// for _, url := range urls {
+	// 	result := "OK"
+	// 	err := hitURL(url)
+	// 	if err != nil {
+	// 		result = "FAILED"
+	// 	}
+	// 	results[url] = result
+	// }
+	// for url, result := range results {
+	// 	fmt.Println(url, result)
+	// }
+	c := make(chan string)
+	people := [4]string{"mj", "dq", "james", "jake"}
 	for _, person := range people {
 		go isCount(person, c)
 	}
-	fmt.Println(<-c)
-	fmt.Println(<-c)
-	fmt.Println(<-c)
-	time.Sleep(time.Second * 5)
+	for i := 0; i < len(people); i++ {
+		fmt.Println(<-c)
+	}
 }
 
 func hitURL(url string) error {
@@ -60,8 +59,7 @@ func count(person string) {
 	}
 }
 
-func isCount(person string, c chan bool) {
+func isCount(person string, c chan string) {
 	time.Sleep(time.Second * 5)
-	fmt.Println(person)
-	c <- true
+	c <- person + " is sexy"
 }
